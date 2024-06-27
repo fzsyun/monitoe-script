@@ -1,17 +1,19 @@
 {
-  "name": "monitor-script",
-  "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
-  "scripts": {
-    "test": "node main.js"
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/node": "^20.14.9"
-  },
-  "dependencies": {
-    "express": "^4.19.2"
-  }
+	"name": "monitor-script",
+	"version": "1.0.0",
+	"description": "",
+	"main": "main.js",
+	"scripts": {
+		"test": "node main.js",
+		"build": "node scripts/build.js"
+	},
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/node": "^20.14.9"
+	},
+	"dependencies": {
+		"esbuild": "^0.21.5",
+		"express": "^4.19.2"
+	}
 }
