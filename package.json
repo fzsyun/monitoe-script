@@ -1,0 +1,17 @@
+{
+  "name": "monitor-script",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "node main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.14.9"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
