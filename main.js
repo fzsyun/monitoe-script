@@ -1,3 +1,4 @@
+const cron = require('node-cron');
 const express = require('express')
 const app = express()
 
@@ -45,12 +46,16 @@ const main = async (day) => {
         //输出前三
         let slice = list.slice(0, 3);
         let temple = `${date} - ${departure} - ${arrive} \n`;
-        slice.forEach(e => {
+        slice.filter(e => e.price < 500).forEach(e => {
             temple += `航班：${e.flightNo} - 价格：${e.price}\n`;
             temple += e.throwName ? `${e.depName} - ${e.arrName} - ${e.throwName}\n` : `${e.depName} - ${e.arrName}\n`;
             temple += day !== i ? `${e.depTime} - ${e.arrTime}\n\n` : `${e.depTime} - ${e.arrTime}`;
         });
         temples.push(temple)
+    }
+    let message = "未查询到低于500的机票。"
+    if (temples.length !== 0) {
+        message = temples.join('\n');
     }
     //推送消息
     const requestOptions = {
@@ -59,7 +64,7 @@ const main = async (day) => {
             'Content-Type': 'application/json'
         }, body: JSON.stringify({
             msg_type: 'text', content: {
-                'text': temples.join('\n')
+                'text': message
             }
         })
     };
@@ -68,10 +73,25 @@ const main = async (day) => {
 
 //监控三天内，最低的前三个机票行程。
 app.get('/', (req, res) => {
-    main(3).then();
+    // main(3).then();
     res.send('这里什么也没有。')
 })
+//30 23 * * * 北京时间7点30
+cron.schedule('30 23 * * *', () => {
+    console.log('Executing scheduled task...' + new Date());
+    main(5).then();
+});
+//0 4 * * * 北京时间12点00
+cron.schedule('0 4 * * *', () => {
+    console.log('Executing scheduled task...' + new Date());
+    main(5).then();
+});
+//30 9 * * * 北京时间17点30
+cron.schedule('30 9 * * *', () => {
+    console.log('Executing scheduled task...' + new Date());
+    main(5).then();
+});
 app.listen(3000, () => {
-    console.log(`Example app listening on port 3000}`)
+    console.log(`Example app listening on port {3000}`)
 })
 module.exports = app
