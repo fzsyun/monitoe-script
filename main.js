@@ -73,24 +73,24 @@ const main = async (day) => {
 
 //监控三天内，最低的前三个机票行程。
 app.get('/', (req, res) => {
-    // main(3).then();
+    main(5).then();
     res.send('这里什么也没有。')
 })
-//30 23 * * * 北京时间7点30
-cron.schedule('30 23 * * *', () => {
-    console.log('Executing scheduled task...' + new Date());
-    main(5).then();
-});
-//0 4 * * * 北京时间12点00
-cron.schedule('0 4 * * *', () => {
-    console.log('Executing scheduled task...' + new Date());
-    main(5).then();
-});
-//30 9 * * * 北京时间17点30
-cron.schedule('30 9 * * *', () => {
-    console.log('Executing scheduled task...' + new Date());
-    main(5).then();
-});
+// //30 23 * * * 北京时间7点30
+// cron.schedule('30 23 * * *', () => {
+//     console.log('Executing scheduled task...' + new Date());
+//     main(5).then();
+// });
+// //0 4 * * * 北京时间12点00
+// cron.schedule('0 4 * * *', () => {
+//     console.log('Executing scheduled task...' + new Date());
+//     main(5).then();
+// });
+// //30 9 * * * 北京时间17点30
+// cron.schedule('30 9 * * *', () => {
+//     console.log('Executing scheduled task...' + new Date());
+//     main(5).then();
+// });
 app.listen(3000, () => {
     console.log(`Example app listening on port {3000}`)
 })
