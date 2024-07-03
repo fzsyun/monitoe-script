@@ -33,7 +33,7 @@ const getDate = (num) => {
 // }
 
 const main = async (day) => {
-    const temples = []
+    const templates = []
     for (let i = 0; i < day; i++) {
         let date = getDate(i);
         const url = `https://www.earlytrip.fun/S/xcx_GetFlightList_v2?dep=${departure}&arr=${arrive}&date=${date}&type=ec&u=${accessKey}`;
@@ -45,17 +45,17 @@ const main = async (day) => {
         list.sort((a, b) => a.price - b.price);
         //输出前三
         let slice = list.slice(0, 3);
-        let temple = `${date} - ${departure} - ${arrive} \n`;
         slice.filter(e => e.price < 500).forEach(e => {
-            temple += `航班：${e.flightNo} - 价格：${e.price}\n`;
-            temple += e.throwName ? `${e.depName} - ${e.arrName} - ${e.throwName}\n` : `${e.depName} - ${e.arrName}\n`;
-            temple += day !== i ? `${e.depTime} - ${e.arrTime}\n\n` : `${e.depTime} - ${e.arrTime}`;
+            let template = '';
+            template += `${e.flightNo} - ￥${e.price}\n`;
+            template += e.throwName ? `${e.depName} - ${e.arrName} - ${e.throwName}\n` : `${e.depName} - ${e.arrName}\n`;
+            template += `${e.depDate} - ${e.depTime} - ${e.arrTime}\n`;
+            templates.push(template)
         });
-        temples.push(temple)
     }
     let message = "未查询到低于500的机票。"
-    if (temples.length !== 0) {
-        message = temples.join('\n');
+    if (templates.length !== 0) {
+        message = templates.join('\n');
     }
     //推送消息
     const requestOptions = {
@@ -72,7 +72,7 @@ const main = async (day) => {
 }
 
 //监控三天内，最低的前三个机票行程。
-app.get('/', (req, res) => {
+app.post('/', (req, res) => {
     main(5).then();
     res.send('这里什么也没有。')
 })
